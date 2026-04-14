@@ -6,3 +6,73 @@
 <label>Tore Team B:</label>
 <input type=“number“ id=“toreB“><br><br>
 <button>Tipp speichern</button>
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<title>Tippspiel-Demo</title>
+</head>
+<body>
+<h1>Tippspiel-Demo</h1>
+<label>Name:</label>
+<input type="text" id="name"><br><br>
+<label>Tore Team A:</label>
+<input type="number" id="toreA"><br><br>
+<label>Tore Team B:</label>
+<input type="number" id="toreB"><br><br>
+<button onclick="speichern()">Tipp speichern</button>
+<button onclick="laden()">Tipps laden</button>
+<h2>Gespeicherte Tipps</h2>
+<div id="ausgabe"></div>
+<script type="module">
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+const supabaseUrl = https://svvyagchpcdlyrgvfujk.supabase.co;
+const supabaseKey = sb_publishable_m2FTSQoLcdXO-JPbEQRqoA_18j5gcIn;
+const supabase = createClient(supabaseUrl, supabaseKey);
+  async function speichern() {
+const name = document.getElementById("name").value;
+const toreA = Number(document.getElementById("toreA").value);
+const toreB = Number(document.getElementById("toreB").value);
+const { error } = await supabase
+.from("tipps")
+.insert([
+{
+name: name,
+tore_a: toreA,
+tore_b: toreB
+}
+]);
+if (error) {
+document.getElementById("ausgabe").innerHTML =
+"Fehler beim Speichern: " + error.message;
+return;
+}
+document.getElementById("ausgabe").innerHTML = "Tipp gespeichert!";
+//await laden();
+}
+async function laden() {
+const { data, error } = await supabase
+.from("tipps")
+.select("*")
+.order("id", { ascending: true });
+if (error) {
+document.getElementById("ausgabe").innerHTML =
+"Fehler beim Laden: " + error.message;
+return;
+}
+let text = "";
+for (let i = 0; i < data.length; i++) {
+let tipp = data[i];
+text +=
+tipp.name + ": " +
+tipp.tore_a + " : " + tipp.tore_b +
+"<br>";
+  }
+document.getElementById("ausgabe").innerHTML = text;
+}
+window.speichern = speichern;
+window.laden = laden;
+//laden();
+</script>
+</body>
+</html>
