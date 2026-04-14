@@ -20,8 +20,8 @@
 <input type="number" id="toreA"><br><br>
 <label>Tore Team B:</label>
 <input type="number" id="toreB"><br><br>
-<button onclick="speichern()">Tipp speichern</button>
-<button onclick="laden()">Tipps laden</button>
+<button onclick="speichern"()>Tipp speichern</button>
+<button onclick="laden"()>Tipps laden</button>
 <h2>Gespeicherte Tipps</h2>
 <div id="ausgabe"></div>
 <script type="module">
@@ -48,7 +48,7 @@ document.getElementById("ausgabe").innerHTML =
 return;
 }
 document.getElementById("ausgabe").innerHTML = "Tipp gespeichert!";
-//await laden();
+await laden();
 }
 async function laden() {
 const { data, error } = await supabase
@@ -72,7 +72,7 @@ document.getElementById("ausgabe").innerHTML = text;
 }
 window.speichern = speichern;
 window.laden = laden;
-//laden();
+laden();
 </script>
 </body>
 </html>
